@@ -15,7 +15,7 @@ app.set('view engine', 'mustache')
 app.use(express.static(path.join(__dirname, 'static')))
 
 app.get("/", function(req, res, next){
-  res.render("index", {appType:"Express"})
+  res.render("index", {appType:"Starbucks Mugs"})
 })
 
 app.listen(3000, function(){
