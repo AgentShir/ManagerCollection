@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-
 mongoose.Promise = require('bluebird');
-mongoose.connect('mongodb://localhost:27017/sbMugs');
+
+const url = "mongodb://localhost:27017/sbMugs";
+mongoose.createConnection(url);
 
 const sbMugsSchema = new mongoose.Schema({
-  id: {type: Number},
   city: {type: String},
   country: {type: String},
   edition: {type: String},
@@ -13,15 +13,64 @@ const sbMugsSchema = new mongoose.Schema({
 
 const sbMugs = mongoose.model('sbMugs', sbMugsSchema);
 
-// function getAllSmurfs(callback) {
-//   SmurfModel.findMany({})
-//     .then(function(smurfs) {
-//       callback(smurfs);
-//     })
-//     .catch(function(error) {
-//       console.log("error", error);
-//       callback(null);
-//     })
-// }
+function getAllMugs(callback) {
+  sbMugs.find({})
+    .then(function(mugs) {
+      callback(mugs);
+    })
+    .catch(function(error) {
+      console.log("error", error);
+      callback(null);
+    })
+}
 
-module.exports = sbMugs;
+function createMug(data, callback) {
+
+  var mug = new sbMugs(data);
+
+  mug.save()
+    .then(function() {
+      callback(mug);
+    })
+    .catch(function(error) {
+      console.log("Whoops, it did not save", error);
+      callback();
+    })
+}
+
+function deleteMug(data, callback) {
+
+  var mug = new sbMugs({_id: data});
+
+  sbMugs.remove(mug)
+    .then(function() {
+      callback(mug);
+    })
+    .catch(function(error) {
+      console.log("Whoops!", error);
+      callback();
+    })
+}
+
+function editMug(id, data) {
+  var mug = new sbMugs({_id: id});
+  console.log('But does it work');
+  sbMugs.update(data, mug).then(function() {
+      })
+      .catch(function(error) {
+        console.log("Whoops!", error);
+      })
+
+  console.log('I might have broken it');
+}
+
+module.exports = {
+  getAllMugs: getAllMugs,
+  createMug: createMug,
+  sbMugs: sbMugs,
+  deleteMug: deleteMug,
+  editMug: editMug
+}
+
+var myMug = new sbMugs({city: "Washington DC", country: "USA", edition: "13 You Are Here Series", image: "http://fredorange.com/files/mugs/3142/image.jpg"});
+console.log(myMug.toObject());

@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title>Edit Your Mug</title>
   <link rel="stylesheet" href="css/main.css" />
 </head>
 <body>
   <h1>{{appType}}!</h1>
-  <form method="post" action="/mugs" >
+  <form method="post" action="/edit/{{id}}" >
     <input type="text" id="city" placeholder="City:" name="city"><br />
     <input type="text" id="country" placeholder="Country:" name="country"><br />
     <input type="text" id="edition" placeholder="Edition:" name="edition"><br />

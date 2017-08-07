@@ -7,10 +7,15 @@
 </head>
 <body>
   <h1>Here's Your Mug:</h1>
-      <div>Mug id: {{id}}</div>
+   {{#mug}}
+      <div>id: {{id}}</div>
+      <div>_id: {{_id}}</div>
       <div>City: {{city}}</div>
       <div>Country: {{country}}</div>
       <div>Edition: {{edition}}</div>
-      <div>Image: {{image}}</div>
+      <div>Image: <img src="{{image}}"></div>
+      <a href="/delete/{{id}}">CLICK HERE AND ONLY HERE TO DELETE THIS MUG</a>
+    {{/mug}}
+      <a href="/">Return To Form</a>
 </body>
 </html>
