@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Your Mug</title>
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+  <h1>Edit Your Mug</h1>
+  <form method="post" action="/edit/{{id}}" >
+    <input type="text" id="city" value={{city}} name="city"><br />
+    <input type="text" id="country" value={{country}} name="country"><br />
+    <input type="text" id="edition" value={{ediion}} name="edition"><br />
+    <input type="url" id="image" value={{image}} name="image"><br />
+    <button type="submit" id="edit">Edit Mug</button>
+  </form>
+
+</body>
+</html>

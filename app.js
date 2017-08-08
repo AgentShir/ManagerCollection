@@ -8,8 +8,6 @@ const bodyParser = require('body-parser');
 mongoose.Promise = require('bluebird');
 mongoose.connect('mongodb://localhost:27017/sbMugs');
 
-
-
 var sbMugsModel = require('./models/sbMugs');
 
 app.engine('mustache', mustacheExpress());
@@ -62,28 +60,51 @@ app.get("/delete/:id", function(req, res, next){
     });
 });
 
-app.post("/edit/:id", function(req, res, next){
+app.get("/edit/mug/:id", function(req, res){
+  var id = req.params.id;
+  var query ={"_id": id};
+  sbMugsModel.sbMugs.findOne(query)
+    .then(function(mug){
+      res.render('submit', mug);
+    })
+    .catch(function(error){
+      console.log("Collection! Show thyself!", error);
+    })
+});
 
-  var data = {
-    city:req.body.city,
-    country:req.body.country,
-    edition:req.body.edition,
-    image:req.body.image
-  };
-    console.log(data);
-    sbMugsModel.editMug(req.params.id, data, null, function(mug){
-      res.render("mugs", mug);
+app.post("/submit/mug", function(req, res){
+
+  var data = {};
+  data._id = req.body._id;
+  data.city = req.body.city;
+  data.country = req.body.country;
+  data.edition = req.body.edition;
+  data.image = req.body.image;
+
+  var queryObject = {"_id": data._id};
+  var updateObject = {
+      "$set": {
+        "city": data.city,
+        "country": data.country,
+        "edition": data.edition,
+        "image": data.image
+   }
+}﻿
+
+  SmurfModel.smurfModel.findOne(query)
+    .then(function(mug) {
+      mug.city = data.city;
+      mug.country = data.country;
+      mug.edition = data.edition;
+      mug.image = data.image;
+
+      mug.save()
+        .then(function(savedMug) {
+          res.redirect('/');
+        })
     });
 });
 
-app.get("/edit/:id", function(req, res, next){
-  var model = {
-    appType: "Edit the Mug Info",
-    id: req.params.id
-  }
-  res.render("edit", model);
-
-});
 
 app.listen(3000, function(){
   console.log("App running on port 3000")
