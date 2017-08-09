@@ -65,7 +65,7 @@ app.get("/edit/mug/:id", function(req, res){
   var query ={"_id": id};
   sbMugsModel.sbMugs.findOne(query)
     .then(function(mug){
-      res.render('submit', mug);
+      res.render('edit', mug);
     })
     .catch(function(error){
       console.log("Collection! Show thyself!", error);
@@ -74,24 +74,20 @@ app.get("/edit/mug/:id", function(req, res){
 
 app.post("/submit/mug", function(req, res){
 
+// Todo: res.render('submit', mug);
+
   var data = {};
   data._id = req.body._id;
   data.city = req.body.city;
   data.country = req.body.country;
   data.edition = req.body.edition;
   data.image = req.body.image;
+  console.log(data);
 
   var queryObject = {"_id": data._id};
-  var updateObject = {
-      "$set": {
-        "city": data.city,
-        "country": data.country,
-        "edition": data.edition,
-        "image": data.image
-   }
-}﻿
 
-  SmurfModel.smurfModel.findOne(query)
+
+  sbMugsModel.sbMugs.findOne(queryObject)
     .then(function(mug) {
       mug.city = data.city;
       mug.country = data.country;
@@ -99,7 +95,11 @@ app.post("/submit/mug", function(req, res){
       mug.image = data.image;
 
       mug.save()
-        .then(function(savedMug) {
+        .then(function() {
+          res.redirect('/');
+        })
+        .catch(function(error) {
+          console.log(error)
           res.redirect('/');
         })
     });

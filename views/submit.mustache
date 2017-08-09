@@ -6,13 +6,13 @@
   <link rel="stylesheet" href="css/main.css" />
 </head>
 <body>
-  <h1>Edit Your Mug</h1>
-  <form method="post" action="/edit/{{id}}" >
+  <h1>Edited? Great!</h1>
+  <form method="post" action="/submit/mug" >
     <input type="text" id="city" value={{city}} name="city"><br />
     <input type="text" id="country" value={{country}} name="country"><br />
-    <input type="text" id="edition" value={{ediion}} name="edition"><br />
+    <input type="text" id="edition" value={{edition}} name="edition"><br />
     <input type="url" id="image" value={{image}} name="image"><br />
-    <button type="submit" id="edit">Edit Mug</button>
+    <button type="submit" id="edit">Submit Edited Mug</button>
   </form>
 
 </body>
