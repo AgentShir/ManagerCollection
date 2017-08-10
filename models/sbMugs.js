@@ -8,13 +8,14 @@ const sbMugsSchema = new mongoose.Schema({
   city: {type: String},
   country: {type: String},
   edition: {type: String},
-  image: {type: String}
+  image: {type: String},
+  active: {type: Boolean, default: true}
 })
 
 const sbMugs = mongoose.model('sbMugs', sbMugsSchema);
 
 function getAllMugs(callback) {
-  sbMugs.find({})
+  sbMugs.find({"active": true})
     .then(function(mugs) {
       callback(mugs);
     })

@@ -25,7 +25,7 @@ app.get("/allMugs", function(req, res, next){
     sbMugsModel.getAllMugs(function(searchResults){
       res.render('mugs', {
         mug: searchResults,
-        appType: "All the Mugs"
+        appType: "Here's Your Mug Collection"
       });
     });
 })
@@ -55,9 +55,22 @@ app.post('/mugs', function(req, res){
 });
 
 app.get("/delete/:id", function(req, res, next){
-    sbMugsModel.deleteMug(req.params.id, function(mug) {
-      res.render("mugs", mug);
-    });
+
+    var queryObject = {"_id": req.params.id};
+
+    sbMugsModel.sbMugs.findOne(queryObject)
+      .then(function(mug) {
+        mug.active = false;
+
+        mug.save()
+          .then(function() {
+            res.redirect('/allmugs');
+          })
+          .catch(function(error) {
+            console.log(error)
+            res.redirect('/');
+          })
+      });
 });
 
 app.get("/edit/mug/:id", function(req, res){
@@ -74,8 +87,6 @@ app.get("/edit/mug/:id", function(req, res){
 
 app.post("/submit/mug", function(req, res){
 
-// Todo: res.render('submit', mug);
-
   var data = {};
   data._id = req.body._id;
   data.city = req.body.city;
@@ -86,7 +97,6 @@ app.post("/submit/mug", function(req, res){
 
   var queryObject = {"_id": data._id};
 
-
   sbMugsModel.sbMugs.findOne(queryObject)
     .then(function(mug) {
       mug.city = data.city;
@@ -96,7 +106,7 @@ app.post("/submit/mug", function(req, res){
 
       mug.save()
         .then(function() {
-          res.redirect('/');
+          res.redirect('/allmugs');
         })
         .catch(function(error) {
           console.log(error)
@@ -104,7 +114,6 @@ app.post("/submit/mug", function(req, res){
         })
     });
 });
-
 
 app.listen(3000, function(){
   console.log("App running on port 3000")

@@ -8,12 +8,13 @@
 <body>
   <h1>Here's Your Mug:</h1>
    {{#mug}}
-      <div>Image: <img src="{{image}}"></div>
+      <div><a href="/edit/mug/{{_id}}"><img src="{{image}}"></a></div>
+      Click Image To Edit Entry
       <div>_id: {{_id}}</div>
       <div>City: {{city}}</div>
       <div>Country: {{country}}</div>
-      <div>Edition: {{edition}}</div>
-    {{/mug}}<br/>
+      <div>Edition: {{edition}}</div><br/>
+    {{/mug}}
       <a href="/">Return To Submit Form</a><br />
       <a href="/allmugs">View My Collection</a><br />
 </body>
